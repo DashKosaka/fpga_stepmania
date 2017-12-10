@@ -1,6 +1,6 @@
-// $File: //acds/rel/12.0sp2/ip/sopc/components/altera_avalon_dc_fifo/altera_avalon_dc_fifo.v $
+// $File: //acds/rel/15.0/ip/sopc/components/altera_avalon_dc_fifo/altera_avalon_dc_fifo.v $
 // $Revision: #1 $
-// $Date: 2012/06/21 $
+// $Date: 2015/02/08 $
 // $Author: swbranch $
 //-------------------------------------------------------------------------------
 // Description: Dual clocked single channel FIFO with fill levels and status
@@ -82,6 +82,12 @@ module altera_avalon_dc_fifo(
     parameter STREAM_ALMOST_FULL  = 0;
     parameter STREAM_ALMOST_EMPTY = 0;
 
+    parameter BACKPRESSURE_DURING_RESET = 0;
+
+    // optimizations
+    parameter LOOKAHEAD_POINTERS  = 0;
+    parameter PIPELINE_POINTERS   = 0;
+
     // experimental, internal parameter
     parameter USE_SPACE_AVAIL_IF  = 0;
 
@@ -107,18 +113,18 @@ module altera_avalon_dc_fifo(
     input in_valid;
     input in_startofpacket;
     input in_endofpacket;
-    input [EMPTY_WIDTH - 1 : 0] in_empty;
-    input [ERROR_WIDTH - 1 : 0] in_error;
-    input [CHANNEL_WIDTH - 1: 0] in_channel;
+    input [((EMPTY_WIDTH > 0)   ? EMPTY_WIDTH - 1   : 0) : 0] in_empty;
+    input [((ERROR_WIDTH > 0)   ? ERROR_WIDTH - 1   : 0) : 0] in_error;
+    input [((CHANNEL_WIDTH > 0) ? CHANNEL_WIDTH - 1 : 0) : 0] in_channel;
     output in_ready;
 
     output [DATA_WIDTH - 1 : 0] out_data;
     output reg out_valid;
     output out_startofpacket;
     output out_endofpacket;
-    output [EMPTY_WIDTH - 1 : 0] out_empty;
-    output [ERROR_WIDTH - 1 : 0] out_error;
-    output [CHANNEL_WIDTH - 1: 0] out_channel;
+    output [((EMPTY_WIDTH > 0)   ? EMPTY_WIDTH - 1   : 0) : 0] out_empty;
+    output [((ERROR_WIDTH > 0)   ? ERROR_WIDTH - 1   : 0) : 0] out_error;
+    output [((CHANNEL_WIDTH > 0) ? CHANNEL_WIDTH - 1 : 0) : 0] out_channel;
     input out_ready;
 
     input in_csr_address;
@@ -143,13 +149,15 @@ module altera_avalon_dc_fifo(
     // ---------------------------------------------------------------------
     // Memory Pointers
     // ---------------------------------------------------------------------
-    reg [PAYLOAD_WIDTH - 1 : 0] mem [DEPTH - 1 : 0];
-
+    (* ramstyle="no_rw_check" *) reg [PAYLOAD_WIDTH - 1 : 0] mem [DEPTH - 1 : 0];
+    
     wire [ADDR_WIDTH - 1 : 0] mem_wr_ptr;
     wire [ADDR_WIDTH - 1 : 0] mem_rd_ptr;
 
     reg [ADDR_WIDTH : 0] in_wr_ptr;
+    reg [ADDR_WIDTH : 0] in_wr_ptr_lookahead;
     reg [ADDR_WIDTH : 0] out_rd_ptr;
+    reg [ADDR_WIDTH : 0] out_rd_ptr_lookahead;
     
     // ---------------------------------------------------------------------
     // Internal Signals
@@ -164,6 +172,9 @@ module altera_avalon_dc_fifo(
 
     reg  [ADDR_WIDTH : 0] out_rd_ptr_gray    /*synthesis ALTERA_ATTRIBUTE = "SUPPRESS_DA_RULE_INTERNAL=D102" */;
     wire [ADDR_WIDTH : 0] in_rd_ptr_gray;
+
+    reg  [ADDR_WIDTH : 0] out_wr_ptr_gray_reg;
+    reg  [ADDR_WIDTH : 0] in_rd_ptr_gray_reg;
 
     reg full;
     reg empty;
@@ -185,6 +196,8 @@ module altera_avalon_dc_fifo(
 
     reg [23 : 0] almost_empty_threshold;
     reg [23 : 0] almost_full_threshold;
+
+    reg          sink_in_reset;
     
     // --------------------------------------------------
     // Define Payload
@@ -247,6 +260,7 @@ module altera_avalon_dc_fifo(
                     assign out_data = out_payload;
                 end
             end
+            assign out_packet_signals = 'b0;
         end
     endgenerate
 
@@ -275,22 +289,40 @@ module altera_avalon_dc_fifo(
     // clock domains.
     // ---------------------------------------------------------------------
     always @(posedge in_clk or negedge in_reset_n) begin
-        if (!in_reset_n)
-            in_wr_ptr <= 0;
-        else
-            in_wr_ptr <= next_in_wr_ptr;
+        if (!in_reset_n) begin
+            in_wr_ptr           <= 0;
+            in_wr_ptr_lookahead <= 1;
+        end
+        else begin
+            in_wr_ptr           <= next_in_wr_ptr;
+            in_wr_ptr_lookahead <= (in_valid && in_ready) ? in_wr_ptr_lookahead + 1'b1 : in_wr_ptr_lookahead;
+        end
     end
 
     always @(posedge out_clk or negedge out_reset_n) begin
-        if (!out_reset_n)
-            out_rd_ptr <= 0;
-        else
-            out_rd_ptr <= next_out_rd_ptr;
+        if (!out_reset_n) begin
+            out_rd_ptr           <= 0;
+            out_rd_ptr_lookahead <= 1;
+        end
+        else begin
+            out_rd_ptr           <= next_out_rd_ptr;
+            out_rd_ptr_lookahead <= (internal_out_valid && internal_out_ready) ? out_rd_ptr_lookahead + 1'b1 : out_rd_ptr_lookahead;
+        end
     end
 
-    assign next_in_wr_ptr = (in_ready && in_valid) ? in_wr_ptr + 1'b1 : in_wr_ptr;
-    assign next_out_rd_ptr = (internal_out_ready && internal_out_valid) ? out_rd_ptr + 1'b1 : out_rd_ptr;
+    generate if (LOOKAHEAD_POINTERS) begin : lookahead_pointers
 
+        assign next_in_wr_ptr = (in_ready && in_valid) ? in_wr_ptr_lookahead : in_wr_ptr;
+        assign next_out_rd_ptr = (internal_out_ready && internal_out_valid) ? out_rd_ptr_lookahead : out_rd_ptr;
+
+    end
+    else begin : non_lookahead_pointers
+
+        assign next_in_wr_ptr = (in_ready && in_valid) ? in_wr_ptr + 1'b1 : in_wr_ptr;
+        assign next_out_rd_ptr = (internal_out_ready && internal_out_valid) ? out_rd_ptr + 1'b1 : out_rd_ptr;
+
+    end
+    endgenerate
 
     // ---------------------------------------------------------------------
     // Empty/Full Signal Generation
@@ -307,10 +339,14 @@ module altera_avalon_dc_fifo(
     end
 
     always @(posedge in_clk or negedge in_reset_n) begin
-        if (!in_reset_n)
+        if (!in_reset_n) begin
             full <= 0;
-        else
+            sink_in_reset <= 1'b1;
+        end
+        else begin
             full <= (next_in_rd_ptr[ADDR_WIDTH - 1 : 0] == next_in_wr_ptr[ADDR_WIDTH - 1 : 0]) && (next_in_rd_ptr[ADDR_WIDTH] != next_in_wr_ptr[ADDR_WIDTH]);
+            sink_in_reset <= 1'b0;
+        end
     end
 
 
@@ -328,17 +364,36 @@ module altera_avalon_dc_fifo(
             in_wr_ptr_gray <= bin2gray(in_wr_ptr);
     end
 
-    altera_dcfifo_synchronizer_bundle write_crosser (
+    altera_dcfifo_synchronizer_bundle #(.WIDTH(ADDR_WIDTH+1), .DEPTH(WR_SYNC_DEPTH)) 
+      write_crosser (
         .clk(out_clk),
         .reset_n(out_reset_n),
         .din(in_wr_ptr_gray),
         .dout(out_wr_ptr_gray)
     );
 
-    defparam write_crosser.WIDTH = ADDR_WIDTH + 1;
-    defparam write_crosser.DEPTH = WR_SYNC_DEPTH;
+    // ---------------------------------------------------------------------
+    // Optionally pipeline the gray to binary conversion for the write pointer. 
+    // Doing this will increase the latency of the FIFO, but increase fmax.
+    // ---------------------------------------------------------------------
+    generate if (PIPELINE_POINTERS) begin : wr_ptr_pipeline
 
-    assign next_out_wr_ptr = gray2bin(out_wr_ptr_gray);
+        always @(posedge out_clk or negedge out_reset_n) begin
+            if (!out_reset_n)
+                out_wr_ptr_gray_reg <= 0;
+            else
+                out_wr_ptr_gray_reg <= gray2bin(out_wr_ptr_gray);
+        end
+
+        assign next_out_wr_ptr = out_wr_ptr_gray_reg;
+
+    end
+    else begin : no_wr_ptr_pipeline
+
+        assign next_out_wr_ptr = gray2bin(out_wr_ptr_gray);
+
+    end
+    endgenerate
 
     // ---------------------------------------------------------------------
     // Read Pointer Clock Crossing
@@ -352,22 +407,41 @@ module altera_avalon_dc_fifo(
             out_rd_ptr_gray <= bin2gray(out_rd_ptr);
     end
 
-    altera_dcfifo_synchronizer_bundle read_crosser (
+    altera_dcfifo_synchronizer_bundle #(.WIDTH(ADDR_WIDTH+1), .DEPTH(RD_SYNC_DEPTH)) 
+      read_crosser (
         .clk(in_clk),
         .reset_n(in_reset_n),
         .din(out_rd_ptr_gray),
         .dout(in_rd_ptr_gray)
     );
 
-    defparam read_crosser.WIDTH = ADDR_WIDTH + 1;
-    defparam read_crosser.DEPTH = RD_SYNC_DEPTH;
+    // ---------------------------------------------------------------------
+    // Optionally pipeline the gray to binary conversion of the read pointer. 
+    // Doing this will increase the pessimism of the FIFO, but increase fmax.
+    // ---------------------------------------------------------------------
+    generate if (PIPELINE_POINTERS) begin : rd_ptr_pipeline
 
-    assign next_in_rd_ptr = gray2bin(in_rd_ptr_gray);
+        always @(posedge in_clk or negedge in_reset_n) begin
+            if (!in_reset_n)
+                in_rd_ptr_gray_reg <= 0;
+            else
+                in_rd_ptr_gray_reg <= gray2bin(in_rd_ptr_gray);
+        end
+        
+        assign next_in_rd_ptr = in_rd_ptr_gray_reg;
+
+    end
+    else begin : no_rd_ptr_pipeline
+
+        assign next_in_rd_ptr = gray2bin(in_rd_ptr_gray);
+
+    end
+    endgenerate
 
     // ---------------------------------------------------------------------
     // Avalon ST Signals
     // ---------------------------------------------------------------------
-    assign in_ready = !full;
+    assign in_ready = BACKPRESSURE_DURING_RESET ? !(full || sink_in_reset) : !full;
     assign internal_out_valid = !empty;
 
     // --------------------------------------------------
@@ -534,9 +608,11 @@ module altera_avalon_dc_fifo(
                                       next_in_wr_ptr;
                 end
             end
+            assign space_avail_data = in_space_avail;
         end
-
-        assign space_avail_data = in_space_avail;
+        else begin : gen_blk13_else
+            assign space_avail_data = 'b0;
+        end
     endgenerate
 
     // ---------------------------------------------------------------------

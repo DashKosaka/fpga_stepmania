@@ -1,0 +1,20 @@
+18:07:23 **** Incremental Build of configuration Nios II for project DE2_115_SD_Card_Audio_Player ****
+make all 
+Info: Building ../DE2_115_SD_Card_Audio_Player_bsp/
+C:/altera/15.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../DE2_115_SD_Card_Audio_Player_bsp/
+makefile:580: Warning: SOPC File C:/Users/Administrator/Desktop/DE2_115_SD_Card_Audio_Player/DE2_115_SOPC.sopcinfo could not be found.
+Compiling alt_alarm_start.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -DSYSTEM_BUS_WIDTH=32 -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -EL -mno-hw-div -mhw-mul -mno-hw-mulx   -o obj/HAL/src/alt_alarm_start.o HAL/src/alt_alarm_start.c
+nios2-elf-gcc: error: unrecognized command line option '-EL'
+make[1]: *** [obj/HAL/src/alt_alarm_start.o] Error 1
+make: *** [../DE2_115_SD_Card_Audio_Player_bsp/-recurs-make-lib] Error 2
+18:08:00 **** Incremental Build of configuration Nios II for project DE2_115_SD_Card_Audio_Player ****
+make all 
+Info: Building ../DE2_115_SD_Card_Audio_Player_bsp/
+C:/altera/15.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../DE2_115_SD_Card_Audio_Player_bsp/
+makefile:580: Warning: SOPC File C:/Users/Administrator/Desktop/DE2_115_SD_Card_Audio_Player/DE2_115_SOPC.sopcinfo could not be found.
+Compiling alt_alarm_start.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -DSYSTEM_BUS_WIDTH=32 -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall  -EL -mno-hw-div -mhw-mul -mno-hw-mulx   -o obj/HAL/src/alt_alarm_start.o HAL/src/alt_alarm_start.c
+nios2-elf-gcc: error: unrecognized command line option '-EL'
+make[1]: *** [obj/HAL/src/alt_alarm_start.o] Error 1
+make: *** [../DE2_115_SD_Card_Audio_Player_bsp/-recurs-make-lib] Error 2
