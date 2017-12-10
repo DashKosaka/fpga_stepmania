@@ -1,3 +1,14 @@
+// module
+// every tick (from input signal)
+// read next value out of array
+
+/*
+    [0,0,1,0],
+    [1,0,0,1]
+*/
+
+// if high, create arrow and place at bottom of screen
+
 // draw arrows to screen
 // current question: how can i draw multiple arrows to screen? how can i create a memory bank that draws new arrows on screen?
 // how can i create a sprite on a screen?

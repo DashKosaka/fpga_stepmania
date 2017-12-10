@@ -590,13 +590,6 @@ always_ff @ (posedge Clk) begin
     reset <= ~(KEY[0]);
 end
 
-// vga clk reset
-// always_ff @ (posedge Clk) begin
-// 	if(reset)
-// 		VGA_CLK <= 1'b0;
-// 	else
-// 		VGA_CLK <= ~VGA_CLK;
-// end    
 // end clock and reset
 
 logic [7:0] keycode;
