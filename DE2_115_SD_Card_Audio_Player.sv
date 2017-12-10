@@ -581,4 +581,94 @@ assign action = FL_RY & TD_HS & TD_CLK27 & (TD_DATA == 8'hff);
 assign PS2_CLK = PS2_DAT;
 assign PS2_CLK2 = PS2_DAT2;
 
+
+// our code
+// clock and reset
+logic Clk, reset;
+assign Clk = CLOCK_50;
+always_ff @ (posedge Clk) begin
+    reset <= ~(KEY[0]);
+end
+
+// vga clk reset
+// always_ff @ (posedge Clk) begin
+// 	if(reset)
+// 		VGA_CLK <= 1'b0;
+// 	else
+// 		VGA_CLK <= ~VGA_CLK;
+// end    
+// end clock and reset
+
+logic [7:0] keycode;
+logic keypress;
+// assign LEDG[8] = keypress;
+// assign LEDG[7:0] = keycode;
+
+// begin display
+
+logic [9:0] DrawX, DrawY;
+// signals to tell color mapper to draw on screen
+logic ball, background, receptor_background;
+logic [3:0] receptor, display_arrow;
+
+//timer
+logic [3:0] arrows;
+timer counter(.Clk(Clk), .Reset(reset), .arrows(arrows));
+
+// mostly from VGA lab
+vga_controller vga_controller_inst(
+	.Clk        (Clk),
+	.Reset      (reset),
+	.VGA_HS     (VGA_HS),
+	.VGA_VS     (VGA_VS),
+	.VGA_CLK    (VGA_CLK),
+	.VGA_BLANK_N(VGA_BLANK_N),
+	.VGA_SYNC_N (VGA_SYNC_N),
+	.DrawX      (DrawX),
+	.DrawY      (DrawY)
+);
+
+color_mapper color_mapper_inst(
+	.is_ball(ball),
+	.is_receptor(receptor),
+	.is_background(background),
+	.is_receptor_background(receptor_background),
+	.display_arrow(display_arrow),
+	.DrawX  (DrawX),
+	.DrawY  (DrawY),
+	.VGA_R  (VGA_R),
+	.VGA_G  (VGA_G),
+	.VGA_B  (VGA_B)
+);
+
+ball ball_inst(
+	.Clk                (Clk),
+	.Reset              (reset),
+	.frame_clk          (VGA_VS),
+	.DrawX              (DrawX),
+	.DrawY              (DrawY),
+	.keycode            (keycode[7:0]),
+	.is_ball            (ball)
+);
+
+receptor receptor_inst(
+	.is_receptor        (receptor),
+	.is_receptor_background(receptor_background),
+	.is_background      (background),
+	.keycode            (keycode[7:0]),
+	.DrawX(DrawX), .DrawY(DrawY)
+);
+
+arrow arrow_inst(
+	.Clk          (Clk),
+	.reset        (reset),
+	.frame_clk    (VGA_VS),
+	.display_arrow(display_arrow),
+	.DrawX (DrawX), .DrawY (DrawY)
+);
+
+// endisplay
+
+
+
 endmodule
