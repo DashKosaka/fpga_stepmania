@@ -1186,6 +1186,7 @@ set_global_assignment -name CYCLONEIII_CONFIGURATION_DEVICE EPCS64
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name SYSTEMVERILOG_FILE clock_divider.sv
 set_global_assignment -name SYSTEMVERILOG_FILE "ECE385-HelperTools/PNG To Hex/On-Chip Memory/sprite_bytes/up.sv"
 set_global_assignment -name SYSTEMVERILOG_FILE "ECE385-HelperTools/PNG To Hex/On-Chip Memory/sprite_bytes/right.sv"
 set_global_assignment -name SYSTEMVERILOG_FILE "ECE385-HelperTools/PNG To Hex/On-Chip Memory/sprite_bytes/left.sv"

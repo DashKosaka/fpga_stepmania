@@ -453,7 +453,7 @@ DE2_115_SOPC u0 (
 				 .clk_50_clk_in_reset_reset_n(1'b1), 
 				 .altpll_c3_clk(VGA_CLK),
 				 .altpll_c1_clk(DRAM_CLK),
-				 .altpll_c4_clk(SIMFILE_CLK),
+				 // .altpll_c4_clk(SIMFILE_CLK),
 				 
 				 // the_audio
 				                                                              
@@ -654,7 +654,7 @@ receptor receptor_inst(
 	.is_background      (background),
 	.keycode            (keycode[7:0]),
 	.DrawX(DrawX), .DrawY(DrawY),
-	.key_press
+	.key_press(key_press)
 );
 
 arrow arrow_inst(
@@ -666,7 +666,7 @@ arrow arrow_inst(
 	.DrawX (DrawX), .DrawY (DrawY),
 	.hit0, .hit1, .hit2, .hit3,
     .miss0, .miss1, .miss2, .miss3,
-	.key_press
+	.key_press(key_press)
 );
 // endisplay
 /*
@@ -697,8 +697,9 @@ HexDriver hex_driver_0 ( .In0 (score[3:0]), .Out0(HEX0) );
 HexDriver hex_driver_1 ( .In0 (score[7:4]), .Out0(HEX1) );
 HexDriver hex_driver_2 ( .In0 (score[11:8]), .Out0(HEX2) );
 HexDriver hex_driver_3 ( .In0 (score[15:12]), .Out0(HEX3) );
-HexDriver hex_driver_4 ( .In0 (keycode[3:0]), .Out0(HEX4) );
-HexDriver hex_driver_5 ( .In0 (keycode[7:4]), .Out0(HEX5) );
+// HexDriver hex_driver_4 ( .In0 (key_press[3:0]), .Out0(HEX4) );
+HexDriver hex_driver_4 ( .In0 (sram_data_out[3:0]), .Out0(HEX4) );
+HexDriver hex_driver_5 ( .In0 (sram_data_out[7:4]), .Out0(HEX5) );
 HexDriver hex_driver_6 ( .In0 (sram_data_out[11:8]), .Out0(HEX6) );
 HexDriver hex_driver_7 ( .In0 (sram_data_out[15:12]), .Out0(HEX7) );
 
@@ -738,5 +739,11 @@ keyboard keyboard_inst(
 );
 
 logic SIMFILE_CLK;
+
+clock_divider clock_divider_inst (
+    .clk(Clk),
+    .rst(reset),
+    .clk_div(SIMFILE_CLK)
+   	);
 
 endmodule
