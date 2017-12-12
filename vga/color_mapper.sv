@@ -1,8 +1,7 @@
 // color_mapper: Decide which color to be output to VGA for each pixel.
 module  color_mapper ( 
-                    input              is_ball, is_background, is_receptor_background,
+                    input              is_ball, is_background, is_receptor_background, score_bar,
                     input        [3:0] is_receptor, display_arrow,
-                                                              //   or background (computed in ball.sv)
                     input        [9:0] DrawX, DrawY,       // Current pixel coordinates
                     output logic [7:0] VGA_R, VGA_G, VGA_B // VGA RGB output
                      );
@@ -10,17 +9,22 @@ module  color_mapper (
     logic [7:0] Red, Green, Blue;
 
 	 //trying sprites
-	 logic [7:0] upR, upG, upB;
+	 logic [7:0] upR, upG, upB, downR, downG, downB;
 	 parameter up_x_size = 10'd32;
 	 parameter up_y_size = 10'd32;
 	 int DistX, DistY;
+	 int DownDX, DownDY;
+
+	 assign DistX = DrawX - 100;
+	 assign DistY = DrawY - 100;
 	 
-	 assign DistX = DrawX - 400;
-	 assign DistY = DrawY - 240;
-	 
+     assign DownDX = DrawX - 150;
+     assign DownDY = DrawY - 350;
+
 	 up uparrow(.SpriteX(up_x_size-DistX), .SpriteY(up_y_size-DistY),
             .SpriteR(upR), .SpriteG(upG), .SpriteB(upB));
-//	 down downarrow();
+	 down downarrow(.SpriteX(10'd32-DownDX), .SpriteY(10'd32-DownDY),
+            .SpriteR(downR),.SpriteG(downG), .SpriteB(downG));
 	 
     // Output colors to VGA
     assign VGA_R = Red;
@@ -35,6 +39,20 @@ module  color_mapper (
             Red = 8'hff;
             Green = 8'hff;
             Blue = 8'hff;
+        end
+        
+        else if(DrawX >= 100-16 && DrawX < 116 && DrawY >= 100-16 && DrawY < 116)
+        begin
+            Red = upR;
+            Green = upG;
+            Blue = upB;
+        end
+
+        else if(DrawX >= 150-16 && DrawX < 165 && DrawY >= 350-16 && DrawY < 365)
+        begin
+            Red = downR;
+            Green = downG;
+            Blue = downB;
         end
 
         // draw arrow
@@ -84,6 +102,14 @@ module  color_mapper (
         else if (is_background == 1'b1)
         begin
             Red = 8'h00; Green = 8'h00; Blue = 8'h00;
+        end
+
+        // score bar
+        else if (score_bar == 1'b1)
+        begin
+            Red = 8'h7f - {1'b0, DrawY[9:3]};
+            Green = 8'h00;
+            Blue = 8'h05 + {1'b0, DrawY[9:3]};
         end
 
         // draw default bg

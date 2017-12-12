@@ -88,8 +88,16 @@ begin
 			  begin
 					arrow0_heights[i-arrow_speed] <= 1'b0;
 				   arrow0_heights[i] <= 1'b0;						
-					if(arrow0_heights[i] == 1'b1)begin hit0 <= 4'b1111;end
+					//if(arrow0_heights[i] == 1'b1)begin hit0 <= 4'b1111;end
 			  end
+  			  else if(i-arrow_speed < 10'd79 
+					&& i-arrow_speed >= 10'd30 
+						&& key_press[0] == 1'b1 && arrow0_heights[i] == 1'b1)
+  			  begin
+					arrow0_heights[i-arrow_speed] <= 1'b0;
+				   arrow0_heights[i] <= 1'b0;						
+					hit0 <= 4'b1111;
+  			  end
 			  else
 			  begin
 				   arrow0_heights[i-arrow_speed] <= arrow0_heights[i];
@@ -105,7 +113,15 @@ begin
 			  begin
 					arrow1_heights[i-arrow_speed] <= 1'b0;
 				   arrow1_heights[i] <= 1'b0;						
-					if(arrow1_heights[i] == 1'b1)begin hit1 <= 4'b1111;end
+					//if(arrow1_heights[i] == 1'b1)begin hit1 <= 4'b1111;end
+			  end
+			  else if(i-arrow_speed < 10'd79 
+					&& i-arrow_speed >= 10'd30 
+						&& key_press[1] == 1'b1 && arrow1_heights[i] == 1'b1)
+			  begin
+					arrow1_heights[i-arrow_speed] <= 1'b0;
+				    arrow1_heights[i] <= 1'b0;						
+					hit1 <= 4'b1111;			  		
 			  end
 			  else
 			  begin
@@ -122,7 +138,15 @@ begin
 			  begin
 					arrow2_heights[i-arrow_speed] <= 1'b0;
 				   arrow2_heights[i] <= 1'b0;						
-					if(arrow2_heights[i] == 1'b1)begin hit2 <= 4'b1111;end
+					//if(arrow2_heights[i] == 1'b1)begin hit2 <= 4'b1111;end
+			  end
+			  else if(i-arrow_speed < 10'd79 
+					&& i-arrow_speed >= 10'd30 
+						&& key_press[2] == 1'b1 && arrow2_heights[i])
+			  begin
+					arrow2_heights[i-arrow_speed] <= 1'b0;
+				    arrow2_heights[i] <= 1'b0;						
+					hit2 <= 4'b1111;			  		
 			  end
 			  else
 			  begin
@@ -139,7 +163,15 @@ begin
 			  begin
 					arrow3_heights[i-arrow_speed] <= 1'b0;
 				   arrow3_heights[i] <= 1'b0;							
-					if(arrow3_heights[i] == 1'b1)begin	hit3 <= 4'b1111;end
+					//	if(arrow3_heights[i] == 1'b1)begin	hit3 <= 4'b1111;end
+			  end
+			  else if(i-arrow_speed < 10'd79 
+					&& i-arrow_speed >= 10'd30
+						&& key_press[3] == 1'b1 && arrow3_heights[i])
+			  begin
+					arrow3_heights[i-arrow_speed] <= 1'b0;
+				    arrow3_heights[i] <= 1'b0;							
+					hit3 <= 4'b1111;			  		
 			  end
 			  else
 			  begin

@@ -635,7 +635,8 @@ color_mapper color_mapper_inst(
 	.DrawY  (DrawY),
 	.VGA_R  (VGA_R),
 	.VGA_G  (VGA_G),
-	.VGA_B  (VGA_B)
+	.VGA_B  (VGA_B),
+	.score_bar(is_score)
 );
 
 ball ball_inst(
@@ -698,10 +699,10 @@ HexDriver hex_driver_1 ( .In0 (score[7:4]), .Out0(HEX1) );
 HexDriver hex_driver_2 ( .In0 (score[11:8]), .Out0(HEX2) );
 HexDriver hex_driver_3 ( .In0 (score[15:12]), .Out0(HEX3) );
 // HexDriver hex_driver_4 ( .In0 (key_press[3:0]), .Out0(HEX4) );
-HexDriver hex_driver_4 ( .In0 (sram_data_out[3:0]), .Out0(HEX4) );
-HexDriver hex_driver_5 ( .In0 (sram_data_out[7:4]), .Out0(HEX5) );
-HexDriver hex_driver_6 ( .In0 (sram_data_out[11:8]), .Out0(HEX6) );
-HexDriver hex_driver_7 ( .In0 (sram_data_out[15:12]), .Out0(HEX7) );
+HexDriver hex_driver_4 ( .In0 ({3'b0,sram_data_out[0]}), .Out0(HEX4) );
+HexDriver hex_driver_5 ( .In0 ({3'b0,sram_data_out[1]}), .Out0(HEX5) );
+HexDriver hex_driver_6 ( .In0 ({3'b0,sram_data_out[2]}), .Out0(HEX6) );
+HexDriver hex_driver_7 ( .In0 ({3'b0,sram_data_out[3]}), .Out0(HEX7) );
 
 // register to hold current sample
 reg_16 sram_data(
@@ -725,6 +726,16 @@ score_reg score_holder(
 	.hit0, .hit1, .hit2, .hit3,
 	.miss0, .miss1, .miss2, .miss3,
 	.score
+);
+
+// Score bar
+logic is_score;
+
+score_bar bar(
+	.Clk, .reset, .frame_clk(VGA_VS),
+    .DrawX, .DrawY,
+    .score,
+    .is_score	
 );
 
 // KeyBoard

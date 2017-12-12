@@ -27,8 +27,7 @@ begin
 	
 	else if(frame_clk_rising_edge)
 	begin
-		score <= score + + hit0 + hit1 + hit2 + hit3
-		                  - miss0 - miss1 - miss2 - miss3;		
+		score <= score + hit0 + hit1 + hit2 + hit3 - miss0 - miss1 - miss2 - miss3;		
 	end
 	
 end
