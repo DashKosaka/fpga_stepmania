@@ -24,7 +24,7 @@ module  color_mapper (
 	 up uparrow(.SpriteX(up_x_size-DistX), .SpriteY(up_y_size-DistY),
             .SpriteR(upR), .SpriteG(upG), .SpriteB(upB));
 	 down downarrow(.SpriteX(10'd32-DownDX), .SpriteY(10'd32-DownDY),
-            .SpriteR(downR),.SpriteG(downG), .SpriteB(downG));
+            .SpriteR(downR),.SpriteG(downG), .SpriteB(downB));
 	 
     // Output colors to VGA
     assign VGA_R = Red;
