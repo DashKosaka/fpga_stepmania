@@ -3,7 +3,8 @@ module receptor(
 	output logic [3:0] is_receptor,
 	output logic is_background, is_receptor_background,
 	input  logic [7:0] keycode,
-	input  logic [9:0] DrawX, DrawY
+	input  logic [9:0] DrawX, DrawY,
+	output logic [3:0] key_press
 );
 
 always_comb begin
@@ -21,20 +22,33 @@ end
 // everything will always be left, down, up, right.
 always_comb begin // receptors
 	is_receptor[3:0] = 4'b0;
+	key_press = 4'b0;
 	if ( DrawY >= 10'd30 && DrawY <= 10'd79 )
 	begin
 		if ( DrawX >= 10'd256 && DrawX <= 10'd287 )
 			if ( keycode == 8'h34 )
+			begin
 				is_receptor[0] = 1'b1;
+				key_press[0] = 1'b1;
+			end
 		if ( DrawX >= 10'd288 && DrawX <= 10'd319 )
 			if ( keycode == 8'h33 )
+			begin
 				is_receptor[1] = 1'b1;
+				key_press[1] = 1'b1;
+			end
 		if ( DrawX >= 10'd320 && DrawX <= 10'd351 )
 			if ( keycode == 8'h35 )
+			begin
 				is_receptor[2] = 1'b1;
+				key_press[2] = 1'b1;
+			end
 		if ( DrawX >= 10'd352 && DrawX <= 10'd383 )
 			if ( keycode == 8'h3b )
+			begin
 				is_receptor[3] = 1'b1;
+				key_press[3] = 1'b1;
+			end
 	end
 end
 

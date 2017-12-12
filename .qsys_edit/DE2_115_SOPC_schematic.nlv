@@ -1,0 +1,86 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst DE2_115_SOPC.sma_out -pg 1 -lvl 5 -y 2490
+preplace inst DE2_115_SOPC.av_tri_s1_cfi_flash_0.tdt -pg 1
+preplace inst DE2_115_SOPC.sd_clk -pg 1 -lvl 5 -y 130
+preplace inst DE2_115_SOPC.cpu.clock_bridge -pg 1
+preplace inst DE2_115_SOPC.audio -pg 1 -lvl 5 -y 2590
+preplace inst DE2_115_SOPC.tristate_conduit_pin_sharer_0.arbiter -pg 1
+preplace inst DE2_115_SOPC.tristate_conduit_pin_sharer_0 -pg 1 -lvl 4 -y 1300
+preplace inst DE2_115_SOPC.ledr -pg 1 -lvl 5 -y 930
+preplace inst DE2_115_SOPC.i2c_sda -pg 1 -lvl 5 -y 1130
+preplace inst DE2_115_SOPC.i2c_scl -pg 1 -lvl 5 -y 1030
+preplace inst DE2_115_SOPC.rs232 -pg 1 -lvl 5 -y 1790
+preplace inst DE2_115_SOPC.eep_i2c_scl -pg 1 -lvl 5 -y 30
+preplace inst DE2_115_SOPC.tristate_conduit_pin_sharer_0.pin_sharer -pg 1
+preplace inst DE2_115_SOPC.tristate_conduit_pin_sharer_0.reset -pg 1
+preplace inst DE2_115_SOPC.ledg -pg 1 -lvl 5 -y 830
+preplace inst DE2_115_SOPC.altpll_audio -pg 1 -lvl 4 -y 1450
+preplace inst DE2_115_SOPC.timer -pg 1 -lvl 5 -y 2090
+preplace inst DE2_115_SOPC.sw -pg 1 -lvl 5 -y 2190
+preplace inst DE2_115_SOPC.sd_cmd -pg 1 -lvl 5 -y 230
+preplace inst DE2_115_SOPC.cpu.cpu -pg 1
+preplace inst DE2_115_SOPC.cpu.reset_bridge -pg 1
+preplace inst DE2_115_SOPC.clock_crossing_io -pg 1 -lvl 4 -y 1090
+preplace inst DE2_115_SOPC.av_tri_s1_cfi_flash_0.reset -pg 1
+preplace inst DE2_115_SOPC.av_tri_s1_cfi_flash_0.clk -pg 1
+preplace inst DE2_115_SOPC.av_tri_s1_cfi_flash_0 -pg 1 -lvl 3 -y 1320
+preplace inst DE2_115_SOPC.seg7 -pg 1 -lvl 5 -y 530
+preplace inst DE2_115_SOPC -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst DE2_115_SOPC.eep_i2c_sda -pg 1 -lvl 5 -y 630
+preplace inst DE2_115_SOPC.cpu -pg 1 -lvl 2 -y 1230
+preplace inst DE2_115_SOPC.av_tri_s1_cfi_flash_0.tda -pg 1
+preplace inst DE2_115_SOPC.lcd -pg 1 -lvl 5 -y 730
+preplace inst DE2_115_SOPC.key -pg 1 -lvl 5 -y 1670
+preplace inst DE2_115_SOPC.sd_dat -pg 1 -lvl 5 -y 330
+preplace inst DE2_115_SOPC.av_tri_s1_cfi_flash_0.slave_translator -pg 1
+preplace inst DE2_115_SOPC.altpll -pg 1 -lvl 5 -y 1550
+preplace inst DE2_115_SOPC.tristate_conduit_pin_sharer_0.clock -pg 1
+preplace inst DE2_115_SOPC.tri_state_bridge_flash_bridge_0 -pg 1 -lvl 5 -y 1290
+preplace inst DE2_115_SOPC.sd_wp_n -pg 1 -lvl 5 -y 430
+preplace inst DE2_115_SOPC.clk_50 -pg 1 -lvl 1 -y 1350
+preplace inst DE2_115_SOPC.sysid -pg 1 -lvl 5 -y 2010
+preplace inst DE2_115_SOPC.sma_in -pg 1 -lvl 5 -y 2310
+preplace inst DE2_115_SOPC.onchip_memory2 -pg 1 -lvl 5 -y 2410
+preplace inst DE2_115_SOPC.jtag_uart -pg 1 -lvl 5 -y 1910
+preplace inst DE2_115_SOPC.Terasic_IrDA_0 -pg 1 -lvl 5 -y 1390
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)sd_clk.external_connection,(SLAVE)DE2_115_SOPC.sd_clk_external_connection) 1 0 5 NJ 160 NJ 160 NJ 160 NJ 160 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.i2c_scl_external_connection,(SLAVE)i2c_scl.external_connection) 1 0 5 NJ 1060 NJ 1060 NJ 1060 NJ 1060 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)clk_50.clk_in_reset,(SLAVE)DE2_115_SOPC.clk_50_clk_in_reset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.altpll_audio_locked_conduit,(SLAVE)altpll_audio.locked_conduit) 1 0 4 NJ 1500 NJ 1500 NJ 1500 NJ
+preplace netloc POINT_TO_POINT<net_container>DE2_115_SOPC</net_container>(SLAVE)audio.clock_sink,(MASTER)altpll_audio.c0) 1 4 1 1470
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)lcd.external,(SLAVE)DE2_115_SOPC.lcd_external) 1 0 5 NJ 780 NJ 780 NJ 780 NJ 780 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.sw_external_connection,(SLAVE)sw.external_connection) 1 0 5 NJ 2220 NJ 2220 NJ 2220 NJ 2220 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.sma_out_external_connection,(SLAVE)sma_out.external_connection) 1 0 5 NJ 2520 NJ 2520 NJ 2520 NJ 2520 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.sd_wp_n_external_connection,(SLAVE)sd_wp_n.external_connection) 1 0 5 NJ 460 NJ 460 NJ 460 NJ 460 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)sd_cmd.external_connection,(SLAVE)DE2_115_SOPC.sd_cmd_external_connection) 1 0 5 NJ 260 NJ 260 NJ 260 NJ 260 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)eep_i2c_scl.external_connection,(SLAVE)DE2_115_SOPC.eep_i2c_scl_external_connection) 1 0 5 NJ 60 NJ 60 NJ 60 NJ 60 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)altpll.phasedone_conduit,(SLAVE)DE2_115_SOPC.altpll_phasedone_conduit) 1 0 5 NJ 1620 NJ 1620 NJ 1620 NJ 1620 NJ
+preplace netloc FAN_OUT<net_container>DE2_115_SOPC</net_container>(SLAVE)lcd.control_slave,(MASTER)clock_crossing_io.m0,(SLAVE)key.s1,(SLAVE)i2c_sda.s1,(SLAVE)sysid.control_slave,(SLAVE)sw.s1,(SLAVE)seg7.avalon_slave,(SLAVE)ledg.s1,(SLAVE)sd_dat.s1,(SLAVE)sd_wp_n.s1,(SLAVE)rs232.s1,(SLAVE)i2c_scl.s1,(SLAVE)sd_clk.s1,(SLAVE)ledr.s1,(SLAVE)eep_i2c_sda.s1,(SLAVE)eep_i2c_scl.s1,(SLAVE)sd_cmd.s1,(SLAVE)timer.s1) 1 4 1 1550
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)ledr.external_connection,(SLAVE)DE2_115_SOPC.ledr_external_connection) 1 0 5 NJ 960 NJ 960 NJ 960 NJ 960 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.key_external_connection,(SLAVE)key.external_connection) 1 0 5 NJ 1700 NJ 1700 NJ 1700 NJ 1700 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.audio_conduit_end,(SLAVE)audio.conduit_end) 1 0 5 NJ 2660 NJ 2660 NJ 2660 NJ 2660 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(MASTER)DE2_115_SOPC.altpll_c2,(MASTER)altpll.c2) 1 5 1 NJ
+preplace netloc FAN_OUT<net_container>DE2_115_SOPC</net_container>(SLAVE)altpll_audio.inclk_interface,(SLAVE)Terasic_IrDA_0.clock_sink,(SLAVE)altpll.inclk_interface,(MASTER)clk_50.clk) 1 1 4 NJ 1440 NJ 1440 1210 1420 1610
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.sd_dat_external_connection,(SLAVE)sd_dat.external_connection) 1 0 5 NJ 360 NJ 360 NJ 360 NJ 360 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)tri_state_bridge_flash_bridge_0.out,(SLAVE)DE2_115_SOPC.tri_state_bridge_flash_bridge_0_export) 1 0 5 NJ 1150 NJ 1150 NJ 1180 NJ 1260 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.ledg_external_connection,(SLAVE)ledg.external_connection) 1 0 5 NJ 860 NJ 860 NJ 860 NJ 860 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(MASTER)DE2_115_SOPC.altpll_c3,(MASTER)altpll.c3) 1 5 1 NJ
+preplace netloc FAN_OUT<net_container>DE2_115_SOPC</net_container>(SLAVE)eep_i2c_scl.clk,(SLAVE)onchip_memory2.clk1,(SLAVE)sd_clk.clk,(SLAVE)sd_wp_n.clk,(SLAVE)ledg.clk,(SLAVE)tristate_conduit_pin_sharer_0.clk,(SLAVE)timer.clk,(SLAVE)i2c_scl.clk,(SLAVE)sysid.clk,(SLAVE)sw.clk,(SLAVE)ledr.clk,(SLAVE)av_tri_s1_cfi_flash_0.clk,(SLAVE)jtag_uart.clk,(SLAVE)lcd.clk,(SLAVE)sd_dat.clk,(SLAVE)clock_crossing_io.m0_clk,(SLAVE)sma_out.clk,(SLAVE)cpu.clk,(MASTER)altpll.c0,(SLAVE)seg7.clock_sink,(SLAVE)clock_crossing_io.s0_clk,(SLAVE)tri_state_bridge_flash_bridge_0.clk,(SLAVE)sma_in.clk,(SLAVE)key.clk,(SLAVE)sd_cmd.clk,(SLAVE)i2c_sda.clk,(SLAVE)rs232.clk,(SLAVE)eep_i2c_sda.clk) 1 1 5 450 1110 910 1200 1230 1220 1590 1540 1870
+preplace netloc FAN_OUT<net_container>DE2_115_SOPC</net_container>(SLAVE)seg7.clock_sink_reset,(SLAVE)i2c_sda.reset,(SLAVE)clock_crossing_io.m0_reset,(MASTER)clk_50.clk_reset,(SLAVE)Terasic_IrDA_0.clock_sink_reset,(SLAVE)lcd.reset,(SLAVE)sd_wp_n.reset,(SLAVE)ledg.reset,(SLAVE)sw.reset,(SLAVE)rs232.reset,(SLAVE)clock_crossing_io.s0_reset,(SLAVE)onchip_memory2.reset1,(SLAVE)jtag_uart.reset,(SLAVE)sd_clk.reset,(SLAVE)altpll_audio.inclk_interface_reset,(SLAVE)sma_in.reset,(SLAVE)sd_cmd.reset,(SLAVE)timer.reset,(SLAVE)tristate_conduit_pin_sharer_0.reset,(SLAVE)audio.clock_sink_reset,(SLAVE)ledr.reset,(SLAVE)tri_state_bridge_flash_bridge_0.reset,(SLAVE)sma_out.reset,(SLAVE)eep_i2c_scl.reset,(SLAVE)sd_dat.reset,(SLAVE)cpu.reset,(SLAVE)sysid.reset,(SLAVE)key.reset,(SLAVE)eep_i2c_sda.reset,(SLAVE)av_tri_s1_cfi_flash_0.reset,(SLAVE)altpll.inclk_interface_reset,(SLAVE)i2c_scl.reset) 1 1 4 430 1170 870 1220 1190 1240 1570
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.i2c_sda_external_connection,(SLAVE)i2c_sda.external_connection) 1 0 5 NJ 1080 NJ 1080 NJ 1080 NJ 1080 NJ
+preplace netloc FAN_OUT<net_container>DE2_115_SOPC</net_container>(SLAVE)timer.irq,(MASTER)cpu.irq,(SLAVE)sw.irq,(SLAVE)rs232.irq,(SLAVE)key.irq,(SLAVE)jtag_uart.irq,(SLAVE)Terasic_IrDA_0.interrupt_sender) 1 2 3 830 1460 NJ 1440 1510
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.seg7_conduit_end,(SLAVE)seg7.conduit_end) 1 0 5 NJ 600 NJ 600 NJ 600 NJ 600 NJ
+preplace netloc INTERCONNECT<net_container>DE2_115_SOPC</net_container>(MASTER)cpu.data_master,(SLAVE)jtag_uart.avalon_jtag_slave,(MASTER)cpu.instruction_master,(SLAVE)cpu.debug_mem_slave,(SLAVE)altpll.pll_slave,(SLAVE)Terasic_IrDA_0.avalon_slave,(SLAVE)av_tri_s1_cfi_flash_0.uas,(SLAVE)audio.avalon_slave,(SLAVE)onchip_memory2.s1,(SLAVE)clock_crossing_io.s0,(SLAVE)sma_in.s1,(SLAVE)sma_out.s1,(SLAVE)altpll_audio.pll_slave) 1 1 4 470 1190 850 1420 1150 1400 1530
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)rs232.external_connection,(SLAVE)DE2_115_SOPC.rs232_external_connection) 1 0 5 NJ 1820 NJ 1820 NJ 1820 NJ 1820 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.eep_i2c_sda_external_connection,(SLAVE)eep_i2c_sda.external_connection) 1 0 5 NJ 660 NJ 660 NJ 660 NJ 660 NJ
+preplace netloc POINT_TO_POINT<net_container>DE2_115_SOPC</net_container>(SLAVE)tristate_conduit_pin_sharer_0.tcs0,(MASTER)av_tri_s1_cfi_flash_0.tcm) 1 3 1 N
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)sma_in.external_connection,(SLAVE)DE2_115_SOPC.sma_in_external_connection) 1 0 5 NJ 2340 NJ 2340 NJ 2340 NJ 2340 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.altpll_locked_conduit,(SLAVE)altpll.locked_conduit) 1 0 5 NJ 1600 NJ 1600 NJ 1600 NJ 1600 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.altpll_audio_phasedone_conduit,(SLAVE)altpll_audio.phasedone_conduit) 1 0 4 NJ 1130 NJ 1130 NJ 1160 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)Terasic_IrDA_0.conduit_end,(SLAVE)DE2_115_SOPC.Terasic_IrDA_0_conduit_end) 1 0 5 NJ 1580 NJ 1580 NJ 1580 NJ 1580 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(SLAVE)DE2_115_SOPC.clk_50_clk_in,(SLAVE)clk_50.clk_in) 1 0 1 NJ
+preplace netloc EXPORT<net_container>DE2_115_SOPC</net_container>(MASTER)DE2_115_SOPC.altpll_c1,(MASTER)altpll.c1) 1 5 1 NJ
+preplace netloc POINT_TO_POINT<net_container>DE2_115_SOPC</net_container>(MASTER)tristate_conduit_pin_sharer_0.tcm,(SLAVE)tri_state_bridge_flash_bridge_0.tcs) 1 4 1 1530
+levelinfo -pg 1 0 200 1980
+levelinfo -hier DE2_115_SOPC 210 240 590 1000 1300 1680 1890

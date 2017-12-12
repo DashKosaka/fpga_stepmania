@@ -1186,6 +1186,18 @@ set_global_assignment -name CYCLONEIII_CONFIGURATION_DEVICE EPCS64
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name SYSTEMVERILOG_FILE "ECE385-HelperTools/PNG To Hex/On-Chip Memory/sprite_bytes/up.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "ECE385-HelperTools/PNG To Hex/On-Chip Memory/sprite_bytes/right.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "ECE385-HelperTools/PNG To Hex/On-Chip Memory/sprite_bytes/left.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "ECE385-HelperTools/PNG To Hex/On-Chip Memory/sprite_bytes/down.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE step_chart.sv
+set_global_assignment -name SYSTEMVERILOG_FILE sram_reading_fsm.sv
+set_global_assignment -name SYSTEMVERILOG_FILE score_reg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE reg_16.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hex_driver.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ps2_kb/keyboard.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ps2_kb/Dreg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ps2_kb/11_reg.sv
 set_global_assignment -name SYSTEMVERILOG_FILE vga/timer.sv
 set_global_assignment -name SYSTEMVERILOG_FILE vga/vga_controller.sv
 set_global_assignment -name SYSTEMVERILOG_FILE vga/receptor.sv

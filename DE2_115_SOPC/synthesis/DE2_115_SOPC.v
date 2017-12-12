@@ -10,6 +10,7 @@ module DE2_115_SOPC (
 		output wire        altpll_c1_clk,                                                                     //                              altpll_c1.clk
 		output wire        altpll_c2_clk,                                                                     //                              altpll_c2.clk
 		output wire        altpll_c3_clk,                                                                     //                              altpll_c3.clk
+		output wire        altpll_c4_clk,                                                                     //                              altpll_c4.clk
 		output wire        altpll_locked_conduit_export,                                                      //                  altpll_locked_conduit.export
 		output wire        altpll_phasedone_conduit_export,                                                   //               altpll_phasedone_conduit.export
 		output wire        audio_conduit_end_XCK,                                                             //                      audio_conduit_end.XCK
@@ -283,6 +284,8 @@ module DE2_115_SOPC (
 		.c1        (altpll_c1_clk),                                //                    c1.clk
 		.c2        (altpll_c2_clk),                                //                    c2.clk
 		.c3        (altpll_c3_clk),                                //                    c3.clk
+		.c4        (altpll_c4_clk),                                //                    c4.clk
+		.areset    (),                                             //        areset_conduit.export
 		.locked    (altpll_locked_conduit_export),                 //        locked_conduit.export
 		.phasedone (altpll_phasedone_conduit_export)               //     phasedone_conduit.export
 	);

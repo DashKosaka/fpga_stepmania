@@ -64,6 +64,7 @@ module DE2_115_SD_Card_Audio_Player(
 	SW,
 
 	//////// SEG7 //////////
+	
 	HEX0,
 	HEX1,
 	HEX2,
@@ -72,7 +73,7 @@ module DE2_115_SD_Card_Audio_Player(
 	HEX5,
 	HEX6,
 	HEX7,
-
+	
 	//////// LCD //////////
 	LCD_BLON,
 	LCD_DATA,
@@ -426,6 +427,7 @@ inout		    [6:0]		EX_IO;
 //=======================================================
 //  REG/WIRE declarations
 //=======================================================
+/*
 wire HEX0P;
 wire HEX1P;
 wire HEX2P;
@@ -434,7 +436,7 @@ wire HEX4P;
 wire HEX5P;
 wire HEX6P;
 wire HEX7P;
-
+*/
 
 //=======================================================
 //  Structural coding
@@ -443,90 +445,100 @@ wire reset_n;
 
 assign reset_n = 1'b1;
 
-                    
-  DE2_115_SOPC u0 (
-						// 1) global signals:
-						 .clk_50_clk_in_clk(CLOCK_50),
-						 .clk_50_clk_in_reset_reset_n(1'b1), 
-						 .altpll_c3_clk(VGA_CLK),
-						 .altpll_c1_clk(DRAM_CLK),
-						 
-						 // the_audio
-						                                                              
-						 .audio_conduit_end_ADCDAT(AUD_ADCDAT),
-                   .audio_conduit_end_ADCLRC(AUD_ADCLRCK),					 
-						 .audio_conduit_end_DACDAT(AUD_DACDAT),                                                         
-						 .audio_conduit_end_DACLRC(AUD_DACLRCK),                                                         
-						 .audio_conduit_end_BCLK(AUD_BCLK),
-						 .audio_conduit_end_XCK(AUD_XCK),
-						 
-						 // the_eep_i2c_scl
-						 .eep_i2c_scl_external_connection_export(EEP_I2C_SCLK), 
-						 
-						 // the_eep_i2c_sda
-						 .eep_i2c_sda_external_connection_export(EEP_I2C_SDAT),
-						 
-						 // the_i2c_scl
-						 .i2c_scl_external_connection_export(I2C_SCLK),
-						 
-						 // the_i2c_sda
-						 .i2c_sda_external_connection_export(I2C_SDAT),
-						 
-						 // the_key
-						 .key_external_connection_export(KEY),
-						 
-						 // the_lcd
-						 .lcd_external_E(LCD_EN),                                                                                                                                
-						 .lcd_external_RS(LCD_RS),                                                                 
-						 .lcd_external_RW(LCD_RW), 
-						 .lcd_external_data(LCD_DATA), 
-						 
-						 // the_seg7
-						 .seg7_conduit_end_export ({
-						                HEX7P, HEX7, HEX6P, HEX6,
-								          HEX5P, HEX5, HEX4P, HEX4, 
-											 HEX3P, HEX3, HEX2P, HEX2,
-											 HEX1P, HEX1, HEX0P, HEX0}),  
-											 
-		            // the_sw
-						.sw_external_connection_export(SW),
-						 					  
-					   // the_rs232
-                  .rs232_external_connection_cts_n(UART_CTS),
-                  .rs232_external_connection_rts_n(UART_RTS),
-                  .rs232_external_connection_rxd(UART_RXD),
-                  .rs232_external_connection_txd(UART_TXD),
-						
-						// the_sma_in
-                  .sma_in_external_connection_export(SMA_CLKIN),
 
-                  // the_sma_out
-                  .sma_out_external_connection_export(SMA_CLKOUT),
-						
-						
-						// the_tri_state_bridge_flash_avalon_slave
-						.tri_state_bridge_flash_bridge_0_export_av_tri_s1_cfi_flash_0_tcm_address_out(FL_ADDR),      
-						.tri_state_bridge_flash_bridge_0_export_av_tri_s1_cfi_flash_0_tcm_write_n_out(FL_WE_N),     
-						.tri_state_bridge_flash_bridge_0_export_av_tri_s1_cfi_flash_0_tcm_chipselect_n_out(FL_CE_N), 
-						.tri_state_bridge_flash_bridge_0_export_av_tri_s1_cfi_flash_0_tcm_read_n_out(FL_OE_N),       
-						.tri_state_bridge_flash_bridge_0_export_av_tri_s1_cfi_flash_0_tcm_data_out(FL_DQ),
-						
-					   // sdcard	
-						.sd_cmd_external_connection_export(SD_CMD), 
-						.sd_clk_external_connection_export(SD_CLK),                                                           
-                  .sd_dat_external_connection_export(SD_DAT), 
-                  .sd_wp_n_external_connection_export(SD_WP_N),						
-						                                                                                              
-						//ledg                                              
-						.ledg_external_connection_export(LEDG), 
-						
-	               //ledr					
-					   .ledr_external_connection_export(LEDR),                                                         
-        
-					  //IrDA
-                  .Terasic_IrDA_0_conduit_end_export(IRDA_RXD)						
-						                                                       	                                                     	                                                 	                                                 
-                  );                
+                    
+DE2_115_SOPC u0 (
+				// 1) global signals:
+				 .clk_50_clk_in_clk(CLOCK_50),
+				 .clk_50_clk_in_reset_reset_n(1'b1), 
+				 .altpll_c3_clk(VGA_CLK),
+				 .altpll_c1_clk(DRAM_CLK),
+				 .altpll_c4_clk(SIMFILE_CLK),
+				 
+				 // the_audio
+				                                                              
+				 .audio_conduit_end_ADCDAT(AUD_ADCDAT),
+           		 .audio_conduit_end_ADCLRC(AUD_ADCLRCK),					 
+				 .audio_conduit_end_DACDAT(AUD_DACDAT),                                                         
+				 .audio_conduit_end_DACLRC(AUD_DACLRCK),                                                         
+				 .audio_conduit_end_BCLK(AUD_BCLK),
+				 .audio_conduit_end_XCK(AUD_XCK),
+				 
+				 // the_eep_i2c_scl
+				 .eep_i2c_scl_external_connection_export(EEP_I2C_SCLK), 
+				 
+				 // the_eep_i2c_sda
+				 .eep_i2c_sda_external_connection_export(EEP_I2C_SDAT),
+				 
+				 // the_i2c_scl
+				 .i2c_scl_external_connection_export(I2C_SCLK),
+				 
+				 // the_i2c_sda
+				 .i2c_sda_external_connection_export(I2C_SDAT),
+				 
+				 // the_key
+				 .key_external_connection_export(KEY),
+				 
+				 // the_lcd
+				 .lcd_external_E(LCD_EN),                                                                                                                                
+				 .lcd_external_RS(LCD_RS),                                                                 
+				 .lcd_external_RW(LCD_RW), 
+				 .lcd_external_data(LCD_DATA), 
+/*						 
+				 // the_seg7
+				 .seg7_conduit_end_export ({
+				                HEX7P, HEX7, HEX6P, HEX6,
+						          HEX5P, HEX5, HEX4P, HEX4, 
+									 HEX3P, HEX3, HEX2P, HEX2,
+									 HEX1P, HEX1, HEX0P, HEX0}),  
+*/
+/*
+				 .seg7_conduit_end_export ({
+				                /*HEX7P, HEX7, HEX6P, HEX6,
+						          HEX5P, HEX5, HEX4P, HEX4, 
+									 HEX3P, HEX3, HEX2P, HEX2,
+									 HEX1P, HEX1, HEX0P, HEX0}),  											 
+*/
+
+									 // the_sw
+				.sw_external_connection_export(SW),
+				 					  
+			   // the_rs232
+          .rs232_external_connection_cts_n(UART_CTS),
+          .rs232_external_connection_rts_n(UART_RTS),
+          .rs232_external_connection_rxd(UART_RXD),
+          .rs232_external_connection_txd(UART_TXD),
+				
+				// the_sma_in
+          .sma_in_external_connection_export(SMA_CLKIN),
+
+          // the_sma_out
+          .sma_out_external_connection_export(SMA_CLKOUT),
+				
+				
+				// the_tri_state_bridge_flash_avalon_slave
+				.tri_state_bridge_flash_bridge_0_export_av_tri_s1_cfi_flash_0_tcm_address_out(FL_ADDR),      
+				.tri_state_bridge_flash_bridge_0_export_av_tri_s1_cfi_flash_0_tcm_write_n_out(FL_WE_N),     
+				.tri_state_bridge_flash_bridge_0_export_av_tri_s1_cfi_flash_0_tcm_chipselect_n_out(FL_CE_N), 
+				.tri_state_bridge_flash_bridge_0_export_av_tri_s1_cfi_flash_0_tcm_read_n_out(FL_OE_N),       
+				.tri_state_bridge_flash_bridge_0_export_av_tri_s1_cfi_flash_0_tcm_data_out(FL_DQ),
+				
+			   // sdcard	
+				.sd_cmd_external_connection_export(SD_CMD), 
+				.sd_clk_external_connection_export(SD_CLK),                                                           
+          .sd_dat_external_connection_export(SD_DAT), 
+          .sd_wp_n_external_connection_export(SD_WP_N),						
+				                                                                                              
+				//ledg                                              
+				.ledg_external_connection_export(LEDG), 
+				
+           //ledr					
+			   .ledr_external_connection_export(LEDR),                                                         
+
+			  //IrDA
+          .Terasic_IrDA_0_conduit_end_export(IRDA_RXD)						
+				                                                       	                                                     	                                                 	                                                 
+          );                
 
 // Flash Config
 assign	FL_RST_N = reset_n;
@@ -576,33 +588,25 @@ assign ENET1_TX_ER = ENET1_TX_CLK;
 assign TD_RESET_N = TD_VS;
 assign action = FL_RY & TD_HS & TD_CLK27 & (TD_DATA == 8'hff);
 
-///////////////////////////////////////////
-// ps2
-assign PS2_CLK = PS2_DAT;
-assign PS2_CLK2 = PS2_DAT2;
 
+// our code ///////////////////////////////////////////////////////////////////
 
-// our code
 // clock and reset
 logic Clk, reset;
 assign Clk = CLOCK_50;
 always_ff @ (posedge Clk) begin
     reset <= ~(KEY[0]);
 end
-
 // end clock and reset
 
-logic [7:0] keycode;
-logic keypress;
-// assign LEDG[8] = keypress;
-// assign LEDG[7:0] = keycode;
-
 // begin display
-
 logic [9:0] DrawX, DrawY;
 // signals to tell color mapper to draw on screen
 logic ball, background, receptor_background;
 logic [3:0] receptor, display_arrow;
+
+//intermediate step_chart signals
+logic [3:0] display_signal;
 
 //timer
 logic [3:0] arrows;
@@ -649,19 +653,90 @@ receptor receptor_inst(
 	.is_receptor_background(receptor_background),
 	.is_background      (background),
 	.keycode            (keycode[7:0]),
-	.DrawX(DrawX), .DrawY(DrawY)
+	.DrawX(DrawX), .DrawY(DrawY),
+	.key_press
 );
 
 arrow arrow_inst(
 	.Clk          (Clk),
 	.reset        (reset),
 	.frame_clk    (VGA_VS),
+	.display_signal(sram_data_out),
 	.display_arrow(display_arrow),
-	.DrawX (DrawX), .DrawY (DrawY)
+	.DrawX (DrawX), .DrawY (DrawY),
+	.hit0, .hit1, .hit2, .hit3,
+    .miss0, .miss1, .miss2, .miss3,
+	.key_press
+);
+// endisplay
+/*
+// step_chart
+step_chart chart(
+	.Clk				(Clk),
+	.reset			(reset),
+	.frame_clk		(VGA_VS),
+	.display_signal(display_signal)
+);
+*/
+// SRAM
+logic [15:0] sram_data_out;
+logic sram_data_load;
+logic start;
+logic [15:0] score;
+logic [3:0] hit0, hit1, hit2, hit3;
+logic [3:0] miss0, miss1, miss2, miss3;
+logic [3:0] key_press;
+
+//assign start = ~KEY[3];
+// assign key_press[0] = ~KEY[3];
+// assign key_press[1] = ~KEY[3];
+// assign key_press[2] = ~KEY[2];
+// assign key_press[3] = ~KEY[1];
+
+HexDriver hex_driver_0 ( .In0 (score[3:0]), .Out0(HEX0) );
+HexDriver hex_driver_1 ( .In0 (score[7:4]), .Out0(HEX1) );
+HexDriver hex_driver_2 ( .In0 (score[11:8]), .Out0(HEX2) );
+HexDriver hex_driver_3 ( .In0 (score[15:12]), .Out0(HEX3) );
+HexDriver hex_driver_4 ( .In0 (keycode[3:0]), .Out0(HEX4) );
+HexDriver hex_driver_5 ( .In0 (keycode[7:4]), .Out0(HEX5) );
+HexDriver hex_driver_6 ( .In0 (sram_data_out[11:8]), .Out0(HEX6) );
+HexDriver hex_driver_7 ( .In0 (sram_data_out[15:12]), .Out0(HEX7) );
+
+// register to hold current sample
+reg_16 sram_data(
+	.clk(Clk), .reset,
+	.load (sram_data_load), .din(SRAM_DQ), .dout (sram_data_out)
 );
 
-// endisplay
+sram_reading_fsm sram_reading_fsm_inst(
+	.Clk, .frame_clk(SIMFILE_CLK), .reset,
+	.SRAM_CE_N, .SRAM_UB_N, .SRAM_LB_N, .SRAM_OE_N, .SRAM_WE_N,
+	.SRAM_ADDR,
+	.sram_data_load,
+	.start//, .cont(SIMFILE_CLK) // change to the pll clk at the rate we want to read
+);
 
+// Score register
+score_reg score_holder(
+	.Clk,
+	.frame_clk(VGA_VS),
+	.reset,
+	.hit0, .hit1, .hit2, .hit3,
+	.miss0, .miss1, .miss2, .miss3,
+	.score
+);
 
+// KeyBoard
+logic [7:0] keycode;
+
+keyboard keyboard_inst(
+	.Clk    (Clk),
+	.psClk  (PS2_CLK), .psData(PS2_DAT),
+	.reset  (reset),
+	.keyCode(keycode),
+	.press  (keypress) // doesn't actually hook up to anyting, doesn't need to be.
+);
+
+logic SIMFILE_CLK;
 
 endmodule

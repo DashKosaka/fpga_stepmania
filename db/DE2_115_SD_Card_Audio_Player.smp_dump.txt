@@ -1,0 +1,23 @@
+
+State Machine - |DE2_115_SD_Card_Audio_Player|sram_reading_fsm:sram_reading_fsm_inst|state
+Name state.reading_sample_3 state.reading_sample_2 state.reading_sample_1 state.halted state.done 
+state.halted 0 0 0 0 0 
+state.reading_sample_1 0 0 1 1 0 
+state.reading_sample_2 0 1 0 1 0 
+state.reading_sample_3 1 0 0 1 0 
+state.done 0 0 0 1 1 
+
+State Machine - |DE2_115_SD_Card_Audio_Player|DE2_115_SOPC:u0|DE2_115_SOPC_cpu:cpu|DE2_115_SOPC_cpu_cpu:cpu|DE2_115_SOPC_cpu_cpu_nios2_oci:the_DE2_115_SOPC_cpu_cpu_nios2_oci|DE2_115_SOPC_cpu_cpu_debug_slave_wrapper:the_DE2_115_SOPC_cpu_cpu_debug_slave_wrapper|DE2_115_SOPC_cpu_cpu_debug_slave_tck:the_DE2_115_SOPC_cpu_cpu_debug_slave_tck|DRsize
+Name DRsize.101 DRsize.100 DRsize.011 DRsize.010 DRsize.001 DRsize.000 
+DRsize.000 0 0 0 0 0 0 
+DRsize.001 0 0 0 0 1 1 
+DRsize.010 0 0 0 1 0 1 
+DRsize.011 0 0 1 0 0 1 
+DRsize.100 0 1 0 0 0 1 
+DRsize.101 1 0 0 0 0 1 
+
+State Machine - |DE2_115_SD_Card_Audio_Player|DE2_115_SOPC:u0|TERASIC_IRM:terasic_irda_0|IRDA_RECEIVE_Terasic:IRDA_RECEIVE_Terasic_inst|state
+Name state.IDLE state.DATAREAD state.GUIDANCE 
+state.IDLE 0 0 0 
+state.GUIDANCE 1 0 1 
+state.DATAREAD 1 1 0 
